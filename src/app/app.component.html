@@ -1,19 +1,17 @@
 <h2>Angular Tutorial</h2>
-<h3>Your message:{{ msg }}</h3>
-<br />
-<input type="text" #txtdata (keyup)="onchange(txtdata.value)" />
-<br />
-<button type="button" class="btn btn-primary">Test</button>
+
 <br />
 <table class="table table-hover">
   <thead>
-    <th>Name</th>
-    <th>Price</th>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Body</th>
   </thead>
-  <tbody *ngFor="let item of fruits">
-    <tr *ngIf="item.price > 3">
-      <td>{{ item.name }}</td>
-      <td>{{ item.price }}</td>
+  <tbody *ngFor="let item of data">
+    <tr>
+      <td>{{ item.id }}</td>
+      <td>{{ item.title }}</td>
+      <td>{{ item.body }}</td>
     </tr>
   </tbody>
 </table>

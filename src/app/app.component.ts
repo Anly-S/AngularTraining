@@ -1,25 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'AngularApp';
-  public msg = 'Hello';
-  onchange(val: any) {
-    console.log(val);
-    this.msg = val;
+  public msg = '';
+  public data: any;
+
+  constructor(private http: HttpClient) {}
+  ngOnInit() {
+    this.fetchDetails();
   }
 
-  public fruits = [
-    { name: 'Apple', price: 12 },
-    { name: 'Orange', price: 4 },
-    { name: 'Kiwi', price: 2 },
-  ];
+  fetchDetails() {
+    this.http
+      .get<any>('https://jsonplaceholder.typicode.com/posts')
+      .subscribe((resp: any) => {
+        console.log(resp);
+        this.data = resp;
+      });
+  }
 }
