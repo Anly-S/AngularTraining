@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {
+  Form,
+  FormArray,
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
@@ -70,9 +72,39 @@ export class AppComponent {
 
   //-----------------------REACTIVE FORMS-----------------------
 
-  constructor(private fb: FormBuilder) {}
+  // constructor(private fb : FormBuilder) {}
 
-  submit = false;
+  // submit = false;
+  // registrationForm = this.fb.group ({
+  //   firstName : ['',Validators.required],
+  //   lastName : [],
+  //   phone : [''],
+  //   email : ['', [Validators.email,this.emailValidator]]
+  // })
+
+  // emailValidator(control : any) {
+  //   const emailRegex = /^\w+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
+  //   if(!control.value || emailRegex.test(control.value)) {
+  //     return null;
+  //   } else {
+  //     return {invalidEmail : true};
+  //   }
+  // }
+
+  // get f() {
+  //   return this.registrationForm.controls;
+  // }
+
+  // ngOnInit() {}
+
+  // onSubmit() {
+  //   this.submit = true;
+  //   console.log("Clicked..!");
+  //   console.log(this.registrationForm.value)
+  // }
+
+  //-----------------------DYNAMIC FORMS-----------------------
+
   registrationForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: [],
@@ -88,15 +120,26 @@ export class AppComponent {
       return { invalidEmail: true };
     }
   }
+
   get f() {
     return this.registrationForm.controls;
   }
 
-  ngOnInit() {}
+  constructor(private fb: FormBuilder) {}
+  get alternativeEmails() {
+    return this.registration.get('alternativeEmails') as FormArray;
+  }
 
-  onSubmit() {
-    this.submit = true;
-    console.log('Clicked..!');
-    console.log(this.registrationForm.value);
+  registration = this.fb.group({
+    email: ['demo@gmail.com'],
+    alternativeEmails: this.fb.array([]),
+  });
+
+  onSubmit(data: any) {
+    console.log(data.value);
+  }
+
+  addAlternativeEmail() {
+    this.alternativeEmails.push(this.fb.control(''));
   }
 }
