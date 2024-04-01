@@ -1,9 +1,54 @@
-<h2>Angular Tutorial</h2>
+<h2>First Angular App</h2>
+<button type="button" class="btn btn-primary">Primary</button>
+<br />
 
+<!-- ----------------------------------TWO WAY RENDERING---------------------------------- -->
+<h3>Message is {{ msg }}</h3>
+
+<input type="text" #txtdata (keyup)="onchange(txtdata.value)" />
+
+<!-- ----------------------------------TABLE RENDERING---------------------------------- -->
+<table class="table table-hover">
+  <thead>
+    <th>Name</th>
+    <th>Price</th>
+  </thead>
+
+  <!-- ngFor is basically the for loop in Angular -->
+  <tbody *ngFor="let item of fruits">
+    <!-- ngIf is if statement -->
+    <tr *ngIf="item.price > 100">
+      <td>{{ item.name }}</td>
+      <td>{{ item.price }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<br /><br /><br /><br /><br />
+
+<!-- ----------------------------------APIs---------------------------------- -->
+<!-- <table class = 'table table-hover'>
+    <thead>
+        <th>User ID</th>
+        <th>ID</th>
+        <th>Title</th>
+    </thead>
+    <tbody *ngFor = 'let items of data'>
+        <tr>
+            <td>{{items.userId}}</td>
+            <td>{{items.id}}</td>
+            <td>{{items.title}}</td>
+        </tr>
+    </tbody>
+</table> -->
+
+<br /><br /><br /><br /><br /><br />
+
+<!-- ----------------------------------TEMPLATE DRIVEN FORMS---------------------------------- -->
 <div style="text-align: center">
-  <h3>Template Forms</h3>
+  <h3>Template Driven Forms</h3>
   <form #myForm="ngForm" (ngSubmit)="myForm.valid && onSubmit()">
-    <label for="firstName">First Name:</label>
+    <label for="firstName">First Name : </label>
     <input
       type="text"
       id="firstName"
@@ -20,7 +65,7 @@
       First Name is required
     </label>
     <br />
-    <label for="lastName">Last Name:</label>
+    <label for="Last Name : ">Last Name: </label>
     <input
       type="text"
       id="lastName"
@@ -32,11 +77,101 @@
     />
     <label
       class="text-danger"
-      *ngIf="myForm.submitted && lastName.hasError('required')"
+      *ngIf="myForm.submitted && firstName.hasError('required')"
     >
       Last Name is required
     </label>
+    <div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
 
+<br /><br /><br /><br /><br />
+
+<!-- ----------------------------------REACTIVE FORMS---------------------------------- -->
+
+<h3>Reactive Forms</h3>
+<div class="container-fluid">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <label for="firstName">First Name : </label>
+    <input
+      type="text"
+      id="firstName"
+      name="firstName"
+      required
+      class="form-control"
+      formControlName="firstName"
+      [ngClass]="{
+        'is-invalid': submit && registrationForm.get('firstName')?.errors
+      }"
+    />
+
+    <div
+      *ngIf="submit && registrationForm.get('firstName')?.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="registrationForm.get('firstName')?.errors?.['required']">
+        First Name is Required
+      </div>
+    </div>
+
+    <label for="lastName">Last Name : </label>
+    <input
+      type="text"
+      id="lastName"
+      name="lastName"
+      required
+      class="form-control"
+      formControlName="lastName"
+      [ngClass]="{
+        'is-invalid': submit && registrationForm.get('lastName')?.errors
+      }"
+    />
+
+    <div
+      *ngIf="submit && registrationForm.get('lastName')?.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="registrationForm.get('lastName')?.errors?.['required']">
+        Last Name is Required
+      </div>
+    </div>
+
+    <label for="phone">Phone : </label>
+    <input
+      type="text"
+      id="phone"
+      name="phone"
+      required
+      class="form-control"
+      formControlName="phone"
+    />
+
+    <label for="email">Email : </label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      required
+      class="form-control"
+      formControlName="email"
+      [ngClass]="{
+        'is-invalid': submit && registrationForm.get('email')?.errors
+      }"
+    />
+    <div
+      *ngIf="submit && registrationForm.get('lastName')?.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="registrationForm.get('email')?.errors?.['required']">
+        Email ID required
+      </div>
+      <p *ngIf="registrationForm.get('email')?.errors?.['invalidEmail']">
+        Invalid Email ID
+      </p>
+    </div>
+    <br />
     <div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
